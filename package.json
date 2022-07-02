@@ -16,7 +16,7 @@
     "build": "NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "vc build --prod --confirm --token=0FJil8HemBRlajazK4w7z9t7"
+    "deploy": "vc --cwd build --prod --token=0FJil8HemBRlajazK4w7z9t7"
   },
   "eslintConfig": {
     "extends": [
