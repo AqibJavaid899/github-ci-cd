@@ -14,5 +14,14 @@ jobs:
         run: yarn
       - name: Creating the Build of the project
         run: yarn build
-      - name: Confirmation that the build is completed
-        run: echo "Build commpleted successfully!"
+      - name: Setting the Vercel environment in the Container
+        run: |
+          cd build
+          mkdir .vercel
+          cd .vercel
+          touch project.json
+          echo '{"orgId":"rJZUctatKQzgB6NH7ZVZzMnx","projectId":"prj_KZ55aCau4WNtjn8W4TuQjGHlqePT"}' > project.json
+      - name: Deploying the project to the Vercel site
+        run: yarn deploy
+      - name: Confirmation that the Build is completed and Deployed to the Vercel
+        run: echo "Successfully build the project and deployed it to the Vercel!"
