@@ -1,8 +1,10 @@
 name: My First Github Workflow Action
 on: [push]
 jobs:
-  build-and-deploy-the-application:
+  build_and_deploy_the_application:
     runs-on: ubuntu-latest
+    outputs:
+      sharedData: ${{ steps.firstJob.outputs.sharedData }}
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -27,11 +29,16 @@ jobs:
           echo '{\"orgId\":\"$VERCEL_ORG_ID\",\"projectId\":\"$VERCEL_PROJECT_ID\"}' > project.json
       - name: Deploying the project to the Vercel site
         run: yarn deploy
+      - name: Specify the data that is to be shared with other jobs
+        id: firstJob
+        run: echo "::set-output name=sharedData::data-from-first-job-is-this"
       - name: Confirmation that the Build is completed and Deployed to the Vercel
         run: echo "Successfully build the project and deployed it to the Vercel!"
   test-job:
-    needs: build-and-deploy-the-application
+    needs: build_and_deploy_the_application
     runs-on: ubuntu-18.04
+    env:
+      SHARED_JOB_DATA: ${{ needs.build_and_deploy_the_application.outputs.sharedData }}
     steps:
       - name: Testing the application
-        run: echo "Testing completed. Hurray!!"
+        run: echo $SHARED_JOB_DATA
