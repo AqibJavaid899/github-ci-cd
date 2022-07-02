@@ -4,10 +4,12 @@ jobs:
   build-the-application:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Cloning the Repo into the Virtual Container
+        uses: actions/checkout@v2
+      - name: Installing the Node version 16 in the Container
       - uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: "16"
       - name: Installing the node_modules in the Virtual Container
         run: yarn
       - name: Creating the Build of the project
