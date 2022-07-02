@@ -1,8 +1,18 @@
 name: My First Github Workflow Action
 on: [push]
 jobs:
-  say-hello:
+  build-the-application:
     runs-on: ubuntu-latest
     steps:
-      - name: Saying Hello
-        run: echo "Hello There!"
+      - name: Cloning the Repo into the Virtual Container
+        uses: actions/checkout@v2
+      - name: Installing the Node Version 14
+        uses: actions/setup-node@v2
+          with:
+            node-version: '14'
+      - name: Installing the node_modules in the Virtual Container
+        run: yarn
+      name: Creating the Build of the project
+        run: yarn build 
+      - name: Confirmation that the build is completed
+        run: echo "Build commpleted successfully!"
