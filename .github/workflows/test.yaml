@@ -3,6 +3,10 @@ on: [push]
 jobs:
   build-the-application:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - name: Cloning the Repo into the Virtual Container
         uses: actions/checkout@v2
@@ -20,7 +24,7 @@ jobs:
           mkdir .vercel
           cd .vercel
           touch project.json
-          echo '{"orgId":"rJZUctatKQzgB6NH7ZVZzMnx","projectId":"prj_KZ55aCau4WNtjn8W4TuQjGHlqePT"}' > project.json
+          echo '{\"orgId\":\"$VERCEL_ORG_ID\",\"projectId\":\"$VERCEL_PROJECT_ID\"}' > project.json
       - name: Deploying the project to the Vercel site
         run: yarn deploy
       - name: Confirmation that the Build is completed and Deployed to the Vercel
