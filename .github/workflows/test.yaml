@@ -1,7 +1,7 @@
 name: My First Github Workflow Action
 on: [push]
 jobs:
-  build-the-application:
+  build-and-deploy-the-application:
     runs-on: ubuntu-latest
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -29,3 +29,9 @@ jobs:
         run: yarn deploy
       - name: Confirmation that the Build is completed and Deployed to the Vercel
         run: echo "Successfully build the project and deployed it to the Vercel!"
+  test-job:
+    needs: build-and-deploy-the-application
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Testing the application
+        run: echo "Testing completed. Hurray!!"
